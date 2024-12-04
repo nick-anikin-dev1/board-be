@@ -2,7 +2,7 @@ import { EntityModel } from './entity';
 import { Entity, Column } from 'typeorm';
 
 @Entity()
-export class Users extends EntityModel {
+export class User extends EntityModel {
 
   @Column({ nullable: false })
   firstName: string;

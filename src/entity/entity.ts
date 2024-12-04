@@ -8,10 +8,10 @@ export class EntityModel {
   id: number;
 
   @CreateDateColumn()
-  created!: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn()
-  updated!: Date;
+  updatedAt!: Date;
 
   @DeleteDateColumn()
   deletedAt?: Date;

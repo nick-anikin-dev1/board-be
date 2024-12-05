@@ -1,6 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
+import { User } from 'src/entity/user.entity';
 
 function getDbConfig(
     configService: ConfigService,
@@ -12,6 +13,7 @@ function getDbConfig(
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         synchronize: false,
+        entities: [User]
     };
   }
   

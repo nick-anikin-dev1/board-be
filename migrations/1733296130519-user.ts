@@ -17,6 +17,7 @@ export class  User1733296130519 implements MigrationInterface {
                     name: 'createdAt',
                     type: 'data',
                     isNullable: false,
+                    default: 'now()',
                   },
                   {
                     name: 'updateAt',
@@ -51,7 +52,7 @@ export class  User1733296130519 implements MigrationInterface {
     }    
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('user');
+        await queryRunner.dropTable('user', true);
     }
 
 }

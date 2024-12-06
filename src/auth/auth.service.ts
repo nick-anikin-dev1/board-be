@@ -16,8 +16,8 @@ export class AuthService {
     const user = await this.userServise.findOneByEmail(email);
     const passwordIsMatch = await argon2.verify(user.password, password);
     if (user && passwordIsMatch) {
-      const { password, ...result } = user;
-      return result;
+      delete user.password;
+      return user;
     }
     throw new UnauthorizedException('User or password is incorrect');
   }

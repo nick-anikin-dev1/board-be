@@ -10,7 +10,7 @@ export class User extends EntityModel {
   @Column({ nullable: false })
   lastName: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   email: string;
 
   @Column({ select: false })

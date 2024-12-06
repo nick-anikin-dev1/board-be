@@ -1,8 +1,8 @@
-name: GitHub Actions Demo
+name: test lint and build
 
 on:
   push:
-    branches: [feature/GB-1, ]
+    branches: [main, ]
   pull_request:
     branches: [main, ]
 

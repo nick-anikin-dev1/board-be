@@ -1,7 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
-import { User } from 'src/entity/user.entity';
+import { User } from '../entity/user.entity';
 
 function getDbConfig(
     configService: ConfigService,

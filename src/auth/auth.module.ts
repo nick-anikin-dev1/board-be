@@ -9,7 +9,7 @@ import { JwtStrategy } from '../strategies/jwt.strategy';
 
 @Module({
   imports: [
-    UserModule, 
+    UserModule,
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -18,8 +18,8 @@ import { JwtStrategy } from '../strategies/jwt.strategy';
         signOptions: { expiresIn: '30d' },
       }),
       inject: [ConfigService],
-    })
+    }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy]
+  providers: [AuthService, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}

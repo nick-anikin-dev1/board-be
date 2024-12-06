@@ -3,7 +3,6 @@ import { Entity, Column } from 'typeorm';
 
 @Entity()
 export class User extends EntityModel {
-
   @Column({ nullable: false })
   firstName: string;
 

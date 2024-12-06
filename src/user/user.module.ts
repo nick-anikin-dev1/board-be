@@ -16,9 +16,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         signOptions: { expiresIn: '30d' },
       }),
       inject: [ConfigService],
-    })],
+    }),
+  ],
   controllers: [UserController],
   providers: [UserService],
-  exports: [UserService]
+  exports: [UserService],
 })
 export class UserModule {}

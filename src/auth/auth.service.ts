@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import * as argon2 from 'argon2'
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from '../types/types';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,4 +37,10 @@ export class AuthService {
             })
         }
     }
+
+    async signUp(createUserDto: CreateUserDto) {
+        return await this.userServise.createUser(createUserDto);
+    }
+
+
 }

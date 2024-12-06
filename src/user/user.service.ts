@@ -14,26 +14,26 @@ export class UserService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(dto: CreateUserDto) {
     const existUser = await this.userRepository.findOne({
       where: {
-        email: createUserDto.email,
+        email: dto.email,
       },
     })
     if (existUser) throw new BadRequestException('This email alredy exist')
 
     const user = await this.userRepository.save({
-      firstName: createUserDto.firstName,
-      lastName: createUserDto.lastName,
-      email: createUserDto.email,
-      password: await argon2.hash(createUserDto.password),
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      email: dto.email,
+      password: await argon2.hash(dto.password),
     })
 
-    const token = this.jwtService.sign({ email: createUserDto.email })
+    const token = this.jwtService.sign({ email: dto.email })
     return { user, token };
   }
 
-  async findOne(email: string) {
+  async findOneByEmail(email: string) {
     return await this.userRepository.findOne({
       where: {
         email

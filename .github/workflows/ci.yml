@@ -1,0 +1,35 @@
+name: test lint and build
+
+on:
+  push:
+    branches: [main, ]
+  pull_request:
+    branches: [main, ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    container:
+      image: node:20.13.1-alpine
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: npm-${{ hashFiles('package-lock.json') }}
+        with:
+          path: ~/.npm
+          key: ${{ env.cache-name }}
+          restore-key: ${{ env.cache-name }}
+      - name: install modules
+        run: npm install
+      - name: format
+        run: npm run format
+      - name: e2e test
+        run: npm run test:e2e
+      - name: unit test
+        run: npm run test
+      - name: lint code
+        run: npm run lint
+      - name: build project
+        run: npm run build

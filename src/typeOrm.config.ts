@@ -17,5 +17,5 @@ export default new DataSource({
   username: configService.get('DB_USERNAME'),
   password: configService.get('DB_PASSWORD'),
   entities: [Project, UsersProject, User],
-  migrations: [User1733296130519, Project1733819819921]
+  migrations: [User1733296130519, Project1733819819921],
 });

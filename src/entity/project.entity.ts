@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 import { UsersProject } from './usersProject.entity';
 import { EntityModel } from './entity';
 
@@ -12,5 +12,5 @@ export class Project extends EntityModel {
 
   @ManyToMany(() => UsersProject)
   @JoinTable()
-  usersId: UsersProject[]
+  usersId: UsersProject[];
 }

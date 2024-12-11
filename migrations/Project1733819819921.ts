@@ -16,18 +16,19 @@ export class  Project1733916896873 implements MigrationInterface {
         },
         {
           name: 'createdAt',
-          type: 'date',
+          type: 'timestamp',
           isNullable: false,
           default: 'now()',
         },
         {
           name: 'updateAt',
-          type: 'date',
+          type: 'timestamp',
           isNullable: true,
+          default: 'now()',
         },
         {
           name: 'deletedAt',
-          type: 'date',
+          type: 'timestamp',
           isNullable: true,
         },
         {
@@ -39,11 +40,11 @@ export class  Project1733916896873 implements MigrationInterface {
           name: "alias",
           type: "varchar",
           isNullable: false,
+          isUnique: true,
         },
         {
           name: "createrId",
           type: 'int',
-          isUnique: true,
         }]
       }), true
     ) 

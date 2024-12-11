@@ -32,12 +32,12 @@ export class User1733296130519 implements MigrationInterface {
                   {
                     name: 'firstName',
                     type: 'varchar',
-                    isNullable: true,
+                    isNullable: false,
                   },
                   {
                     name: 'lastName',
                     type: 'varchar',
-                    isNullable: true,
+                    isNullable: false,
                   },
                   {
                     name: 'email',
@@ -46,7 +46,7 @@ export class User1733296130519 implements MigrationInterface {
                   {
                     name: 'password',
                     type: 'varchar',
-                    isNullable: true,
+                    isNullable: false,
                   },
                 ],
             }),

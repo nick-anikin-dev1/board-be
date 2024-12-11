@@ -1,9 +1,10 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from '../entity/project.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/entity/user.entity';
 
 @Injectable()
 export class ProjectService {
@@ -12,10 +13,9 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>
   ) {}
  
-  async create(dto: CreateProjectDto) {
+  async create(dto: CreateProjectDto, userId: number) {
     const existProject = await this.projectRepository.findOne({
       where: {
-        name: dto.name,
         alias: dto.alias,
       },
     });
@@ -24,7 +24,7 @@ export class ProjectService {
     return await this.projectRepository.save({
       name: dto.name,
       alias: dto.alias, 
-      createrId: dto.createrId
+      createrId: userId,
     });
   }
 
@@ -38,22 +38,17 @@ export class ProjectService {
 
   async update(id: number, dto: UpdateProjectDto) {
     const project = await this.projectRepository.findOneBy({id});
-    if (project) {
-      project.name = dto.name,
-      project.alias = dto.alias;
-      project.createrId = dto.createrId
-      project.updatedAt = new Date();
-      return await this.projectRepository.save(project);
+    if (!project) {
+      throw new NotFoundException('This project doesn\'t exist');
     }
-    throw new BadRequestException('This project doesn\'t exist');
+    return await this.projectRepository.save({...project});
   }
 
   async remove(id: number) {
     const project = await this.projectRepository.findOneBy({id})
-    if (project) {
-      project.deletedAt = new Date()
-      return this.projectRepository.save(project);
+    if (!project) {
+      throw new NotFoundException('This project doesn\'t exist');
     }
-    throw new BadRequestException('This project doesn\'t exist');
+    return this.projectRepository.softDelete(project);
   }
 }

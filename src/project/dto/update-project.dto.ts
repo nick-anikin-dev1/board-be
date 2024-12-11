@@ -4,8 +4,8 @@ import { IsNotEmpty } from 'class-validator';
 
 export class UpdateProjectDto extends PartialType(CreateProjectDto) {
   @IsNotEmpty()
-  alias: string;
-  
+  name: string;
+
   @IsNotEmpty()
-  createrId: number;
+  alias: string;
 }

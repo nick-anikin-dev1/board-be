@@ -2,6 +2,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { User } from '../entity/user.entity';
+import { Project } from '../entity/project.entity';
 
 function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
   return {
@@ -11,7 +12,7 @@ function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     synchronize: false,
-    entities: [User],
+    entities: [User, Project],
   };
 }
 

@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { User } from '../entity/user.entity';
 import { Project } from '../entity/project.entity';
-import { UsersProject } from '../entity/usersProject.entity';
 
 function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
   return {
@@ -15,8 +14,7 @@ function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
     synchronize: false,
     entities: [
       User, 
-      Project, 
-      UsersProject
+      Project
     ],
   };
 }

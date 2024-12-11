@@ -15,12 +15,14 @@ export class ProjectService {
   async create(dto: CreateProjectDto) {
     const existProject = await this.projectRepository.findOne({
       where: {
+        name: dto.name,
         alias: dto.alias,
       },
     });
     if (existProject) throw new BadRequestException('This project alredy exist');
     
     return await this.projectRepository.save({
+      name: dto.name,
       alias: dto.alias, 
       createrId: dto.createrId
     });
@@ -37,6 +39,7 @@ export class ProjectService {
   async update(id: number, dto: UpdateProjectDto) {
     const project = await this.projectRepository.findOneBy({id});
     if (project) {
+      project.name = dto.name,
       project.alias = dto.alias;
       project.createrId = dto.createrId
       project.updatedAt = new Date();

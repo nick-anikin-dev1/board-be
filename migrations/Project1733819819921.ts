@@ -1,125 +1,95 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey, TableIndex  } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableIndex, TableForeignKey } from "typeorm";
 
-export class  Project1733819819921 implements MigrationInterface {
-  name = 'Project1733819819921'
+export class  Project1733916896873 implements MigrationInterface {
+  name = 'Project1733916896873'
+
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.createTable(
-      new Table({
-        name: 'users_project',
-        columns: [
-          {
-            name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-          },
-          {
-            name: 'createdAt',
-            type: 'date',
-            isNullable: false,
-            default: 'now()',
-          },
-          {
-            name: 'updateAt',
-            type: 'date',
-            isNullable: true,
-          },
-          {
-            name: 'deletedAt',
-            type: 'date',
-            isNullable: true,
-          },
-        ]
-      }), true
-    ) 
     await queryRunner.createTable(
       new Table({
         name: 'project',
         columns: [
-          {
-            name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-          },
-          {
-            name: 'createdAt',
-            type: 'date',
-            isNullable: false,
-            default: 'now()',
-          },
-          {
-            name: 'updateAt',
-            type: 'date',
-            isNullable: true,
-          },
-          {
-            name: 'deletedAt',
-            type: 'date',
-            isNullable: true,
-          },
-          {
-            name: "alias",
-            type: "varchar",
-            isNullable: false,
-            isUnique: true
-          },
-          {
-            name: "createrId",
-            type: 'int',
-          }
-        ]
+        {
+          name: 'id',
+          type: 'int',
+          isPrimary: true,
+          isGenerated: true,
+        },
+        {
+          name: 'createdAt',
+          type: 'date',
+          isNullable: false,
+          default: 'now()',
+        },
+        {
+          name: 'updateAt',
+          type: 'date',
+          isNullable: true,
+        },
+        {
+          name: 'deletedAt',
+          type: 'date',
+          isNullable: true,
+        },
+        {
+          name: "name",
+          type: "varchar",
+          isNullable: false,
+        },
+        {
+          name: "alias",
+          type: "varchar",
+          isNullable: false,
+        },
+        {
+          name: "createrId",
+          type: 'int',
+          isUnique: true,
+        }]
       }), true
     ) 
     await queryRunner.createTable(
       new Table({
-        name: 'project_users_id_users_project',
+        name: 'users_projects',
         columns: [
-          {
-            name: 'projectId',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-          },
-          {
-            name: 'usersProjectId',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-          },
-        ]
+        {
+          name: 'projectId',
+          type: 'int',
+          isPrimary: true,
+          isGenerated: true,
+        },
+        {
+          name: 'usersId',
+          type: 'int',
+          isPrimary: true,
+          isGenerated: true,
+        },]
       }), true
-    ) 
-    await queryRunner.createIndex("project_users_id_users_project", new TableIndex({
-      name: "IDX_33e66e9687b82c1d0c4d5f8e39",
+    )    
+    await queryRunner.createIndex("users_projects", new TableIndex({
+      name: "IDX_667c03d5a36e0f90056b3ecb39",
       columnNames: ["projectId"]
     }));
-    await queryRunner.createIndex("project_users_id_users_project", new TableIndex({
-      name: "IDX_7c50c4219c9cc26105798e1915",
-      columnNames: ["usersProjectId"]
+    await queryRunner.createIndex("users_projects", new TableIndex({
+      name: "IDX_7784abdb1d1df4de9504ad01c9",
+      columnNames: ["userId"]
     }));
-    await queryRunner.createForeignKey("project_users_id_users_project", new TableForeignKey({
+    await queryRunner.createForeignKey("users_projects", new TableForeignKey({
       columnNames: ["projectId"],
       referencedColumnNames: ["id"],
       referencedTableName: "project",
       onDelete: "CASCADE"
     }));
-    await queryRunner.createForeignKey("project_users_id_users_project", new TableForeignKey({
-      columnNames: ["usersProjectId"],
+    await queryRunner.createForeignKey("users_projects", new TableForeignKey({
+      columnNames: ["userId"],
       referencedColumnNames: ["id"],
-      referencedTableName: "users_project",
+      referencedTableName: "user",
       onDelete: "CASCADE"
     }));
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const table = await queryRunner.getTable("project_users_id_users_project");
-    const foreignKey = table.foreignKeys.find(fk => (fk.columnNames.indexOf("projectId") !== -1) && (fk.columnNames.indexOf("usersProjectId") !== -1));
-    await queryRunner.dropForeignKey("project_users_id_users_project", foreignKey);
-    await queryRunner.dropIndex("project","IDX_7c50c4219c9cc26105798e1915");
-    await queryRunner.dropIndex("users_project","IDX_33e66e9687b82c1d0c4d5f8e39");
-    await queryRunner.dropTable('project_users_id_users_project', true);
-    await queryRunner.dropTable('project', true);
-    await queryRunner.dropTable('users_project', true);
+    await queryRunner.dropTable('users_projects', true, true, true);
+    await queryRunner.dropTable('project', true, true, true);
   }
 }
+

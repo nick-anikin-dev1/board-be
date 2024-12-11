@@ -1,5 +1,5 @@
 import { EntityModel } from './entity';
-import { Entity, Column, ManyToMany,  JoinTable} from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 import { Project } from './project.entity';
 
 @Entity()

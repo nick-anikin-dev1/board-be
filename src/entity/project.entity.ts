@@ -4,11 +4,11 @@ import { EntityModel } from './entity';
 
 @Entity()
 export class Project extends EntityModel {
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   alias: string;
 
-  @Column({ unique: true, nullable: false })
-  createrId: string;
+  @Column({ nullable: false })
+  createrId: number;
 
   @ManyToMany(() => UsersProject)
   @JoinTable()

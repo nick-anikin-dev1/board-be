@@ -62,11 +62,11 @@ export class  Project1733819819921 implements MigrationInterface {
             name: "alias",
             type: "varchar",
             isNullable: false,
+            isUnique: true
           },
           {
             name: "createrId",
             type: 'int',
-            isUnique: true,
           }
         ]
       }), true

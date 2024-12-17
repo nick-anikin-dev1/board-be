@@ -30,7 +30,7 @@ export class UserService {
     });
 
     const token = this.jwtService.sign({ id: user.id, email: dto.email });
-    delete user.password
+    delete user.password;
     return { user, token };
   }
 

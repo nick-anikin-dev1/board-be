@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   UseGuards,
-  Request,
   Delete,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
@@ -22,8 +21,7 @@ export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post('create')
-  async create(@Body() dto: CreateProjectDto, 
-               @User() user: IUser) {
+  async create(@Body() dto: CreateProjectDto, @User() user: IUser) {
     return this.projectService.create(dto, user.id);
   }
 
@@ -38,14 +36,12 @@ export class ProjectController {
   }
 
   @Patch('update')
-  async updateProject(@Body() dto: UpdateProjectDto,
-                      @User() user: IUser) {
+  async updateProject(@Body() dto: UpdateProjectDto, @User() user: IUser) {
     return this.projectService.update(user.id, dto);
   }
 
   @Delete('delete')
-  async removeProject(@Param('id') id: number,
-                      @User() user: IUser) {
+  async removeProject(@Param('id') id: number, @User() user: IUser) {
     return this.projectService.remove(id, user.id);
   }
 }

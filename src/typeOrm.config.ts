@@ -16,5 +16,4 @@
 //   password: configService.get('DB_PASSWORD'),
 //   entities: [Project, User],
 
-  
 // });

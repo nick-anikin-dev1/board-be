@@ -39,14 +39,14 @@ export class ProjectService {
   async update(userId: number, dto: UpdateProjectDto) {
     const project = await this.projectRepository.findOne({
       where: {
-        alias: dto.alias
-      }
+        alias: dto.alias,
+      },
     });
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
     if (project.createrId !== userId) {
-      throw new NotFoundException("You do not have enough rights to delete");
+      throw new NotFoundException('You do not have enough rights to delete');
     }
     return await this.projectRepository.update({ id: project.id }, dto);
   }
@@ -57,7 +57,7 @@ export class ProjectService {
       throw new NotFoundException("This project doesn't exist");
     }
     if (project.createrId !== userId) {
-      throw new NotFoundException("You do not have enough rights to delete");
+      throw new NotFoundException('You do not have enough rights to delete');
     }
     return this.projectRepository.softDelete(project);
   }

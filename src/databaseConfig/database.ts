@@ -4,10 +4,10 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import { User } from '../entity/user.entity';
 import { Project } from '../entity/project.entity';
 import { DataSource } from 'typeorm';
-import * as migrations from '../../migrations'
+import * as migrations from '../../migrations';
 
 function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
-  return  {
+  return {
     type: 'postgres',
     host: configService.get('DB_HOST'),
     port: +configService.get<number>('DB_PORT'),
@@ -17,7 +17,7 @@ function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
     entities: [User, Project],
     migrations,
     migrationsTableName: 'migrations',
-  }
+  };
 }
 
 export const DatabaseModule = TypeOrmModule.forRootAsync({
@@ -32,4 +32,4 @@ export const DatabaseModule = TypeOrmModule.forRootAsync({
 
 const configService = new ConfigService();
 
-export default new DataSource(getDbConfig(configService))
+export default new DataSource(getDbConfig(configService));

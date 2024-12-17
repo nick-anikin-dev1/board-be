@@ -3,9 +3,6 @@ import { CreateProjectDto } from './create-project.dto';
 import { IsNotEmpty } from 'class-validator';
 
 export class UpdateProjectDto extends PartialType(CreateProjectDto) {
-  @IsNotEmpty()
   name: string;
-
-  @IsNotEmpty()
   alias: string;
 }

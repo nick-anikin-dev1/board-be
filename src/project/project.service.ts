@@ -23,12 +23,12 @@ export class ProjectService {
       },
     });
     if (existProject)
-      throw new BadRequestException('This project alredy exist');
+      throw new BadRequestException('This project already exist');
 
     return await this.projectRepository.save({
+      createrId: userId,
       name: dto.name,
       alias: dto.alias,
-      createrId: userId,
     });
   }
 
@@ -36,22 +36,28 @@ export class ProjectService {
     return await this.projectRepository.find();
   }
 
-  async findOne(id: number) {
-    return await this.projectRepository.findOneBy({ id });
+  async update(userId: number, dto: UpdateProjectDto) {
+    const project = await this.projectRepository.findOne({
+      where: {
+        alias: dto.alias
+      }
+    });
+    if (!project) {
+      throw new NotFoundException("This project doesn't exist");
+    }
+    if (project.createrId !== userId) {
+      throw new NotFoundException("You do not have enough rights to delete");
+    }
+    return await this.projectRepository.update({ id: project.id }, dto);
   }
 
-  async update(id: number, dto: UpdateProjectDto) {
+  async remove(id: number, userId: number) {
     const project = await this.projectRepository.findOneBy({ id });
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-    return await this.projectRepository.save({ ...dto });
-  }
-
-  async remove(id: number) {
-    const project = await this.projectRepository.findOneBy({ id });
-    if (!project) {
-      throw new NotFoundException("This project doesn't exist");
+    if (project.createrId !== userId) {
+      throw new NotFoundException("You do not have enough rights to delete");
     }
     return this.projectRepository.softDelete(project);
   }

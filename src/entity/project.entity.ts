@@ -12,7 +12,7 @@ export class Project extends EntityModel {
 
   @Column({ nullable: false })
   createrId: number;
-
+  
   @ManyToMany(() => User, (user) => user.projects)
   @JoinTable({ name: 'users_projects' })
   users: User[];

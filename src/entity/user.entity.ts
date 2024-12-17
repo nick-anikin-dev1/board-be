@@ -13,7 +13,7 @@ export class User extends EntityModel {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
 
   @ManyToMany(() => Project, (project) => project.users)

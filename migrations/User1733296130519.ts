@@ -20,7 +20,7 @@ export class User1733296130519 implements MigrationInterface {
                     default: 'now()',
                   },
                   {
-                    name: 'updateAt',
+                    name: 'updatedAt',
                     type: 'date',
                     isNullable: true,
                   },

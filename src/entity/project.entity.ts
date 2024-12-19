@@ -5,6 +5,7 @@ import {
   JoinTable,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { EntityModel } from './entity';
 import { User } from './user.entity';
@@ -21,9 +22,9 @@ export class Project extends EntityModel {
   @Column({ nullable: false })
   creatorId: number;
 
-  @ManyToOne(() => Board, (board) => board.ownProjects)
+  @OneToMany(() => Board, (board) => board.ownProject)
   @JoinColumn({ name: 'projectId' })
-  board: Board;
+  boards: Board[];
 
   @ManyToOne(() => User, (user) => user.ownProjects)
   @JoinColumn({ name: 'creatorId' })

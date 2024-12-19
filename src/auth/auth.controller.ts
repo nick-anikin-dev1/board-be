@@ -23,7 +23,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @Post('signUp')
+  @Post('sign-up')
   @UsePipes(new ValidationPipe())
   async signUp(@Body() createUserDto: CreateUserDto) {
     return this.authService.signUp(createUserDto);

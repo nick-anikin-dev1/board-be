@@ -1,5 +1,6 @@
 import { EntityModel } from './entity';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Project } from './project.entity';
 
 @Entity()
 export class User extends EntityModel {
@@ -12,6 +13,10 @@ export class User extends EntityModel {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column({ select: false })
+  @Column()
   password: string;
+
+  @ManyToMany(() => Project, (project) => project.users)
+  @JoinTable({ name: 'users_projects' })
+  projects: Project[];
 }

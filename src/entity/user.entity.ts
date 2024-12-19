@@ -1,5 +1,5 @@
 import { EntityModel } from './entity';
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Project } from './project.entity';
 
 @Entity()
@@ -15,6 +15,9 @@ export class User extends EntityModel {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Project, (project) => project.creator)
+  ownProjects: Project[]
 
   @ManyToMany(() => Project, (project) => project.users)
   @JoinTable({ name: 'users_projects' })

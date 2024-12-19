@@ -20,7 +20,7 @@ export class UserService {
         email: dto.email,
       },
     });
-    if (existUser) throw new BadRequestException('This email alredy exist');
+    if (existUser) throw new BadRequestException('This email already exist');
 
     const user = await this.userRepository.save({
       firstName: dto.firstName,

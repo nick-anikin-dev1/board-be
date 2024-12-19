@@ -8,7 +8,7 @@ export class Board extends EntityModel {
   name: string;
 
   @Column({ nullable: false })
-  creatorId: string;
+  creatorId: number;
 
   @Column({ nullable: false })
   projectId: number;

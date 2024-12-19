@@ -1,7 +1,6 @@
 import { MigrationInterface, QueryRunner, Table, TableIndex, TableForeignKey } from "typeorm";
 
-export class  Project1734424074854 implements MigrationInterface {
-  name = 'Project1734424074854'
+export class  Project1734604501545 implements MigrationInterface {
  
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -43,7 +42,7 @@ export class  Project1734424074854 implements MigrationInterface {
               isUnique: true,
             },        
             {
-              name: "createrId",
+              name: "creatorId",
               type: 'int',
             }]
           }), true

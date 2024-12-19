@@ -1,11 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class User1733296130519 implements MigrationInterface {
+export class  Board1734604605928 implements MigrationInterface {
+    name = 'Board1734604605928'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'user',
+                name: 'board',
                 columns: [
                   {
                     name: 'id',
@@ -15,39 +16,35 @@ export class User1733296130519 implements MigrationInterface {
                   },
                   {
                     name: 'createdAt',
-                    type: 'date',
+                    type: 'timestamp',
                     isNullable: false,
                     default: 'now()',
                   },
                   {
                     name: 'updatedAt',
-                    type: 'date',
+                    type: 'timestamp',
                     isNullable: true,
                   },
                   {
                     name: 'deletedAt',
-                    type: 'date',
+                    type: 'timestamp',
                     isNullable: true,
                   },
                   {
-                    name: 'firstName',
+                    name: 'name',
                     type: 'varchar',
                     isNullable: false,
                   },
                   {
-                    name: 'lastName',
-                    type: 'varchar',
+                    name: 'creatorId',
+                    type: 'int',
                     isNullable: false,
                   },
                   {
-                    name: 'email',
-                    type: 'varchar',
-                  },
-                  {
-                    name: 'password',
-                    type: 'varchar',
+                    name: 'projectId',
+                    type: 'int',
                     isNullable: false,
-                  },
+                  }
                 ],
             }),
             true,
@@ -55,7 +52,7 @@ export class User1733296130519 implements MigrationInterface {
     }    
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('user', true);
+        await queryRunner.dropTable('board', true);
     }
 
 }

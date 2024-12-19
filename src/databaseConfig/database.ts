@@ -5,6 +5,7 @@ import { User } from '../entity/user.entity';
 import { Project } from '../entity/project.entity';
 import { DataSource } from 'typeorm';
 import * as migrations from '../../migrations';
+import { Board } from '../entity/board.entity';
 
 function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
   return {
@@ -14,7 +15,7 @@ function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     synchronize: false,
-    entities: [User, Project],
+    entities: [User, Project, Board],
     migrations,
     migrationsTableName: 'migrations',
   };

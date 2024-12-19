@@ -17,7 +17,7 @@ export class User extends EntityModel {
   password: string;
 
   @OneToMany(() => Project, (project) => project.creator)
-  ownProjects: Project[]
+  ownProjects: Project[];
 
   @ManyToMany(() => Project, (project) => project.users)
   @JoinTable({ name: 'users_projects' })

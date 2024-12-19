@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { EntityModel } from './entity';
 import { Project } from './project.entity';
 
@@ -7,7 +7,7 @@ export class Board extends EntityModel {
   @Column({ nullable: false })
   name: string;
 
-  @Column({ nullable: false})
+  @Column({ nullable: false })
   creatorId: string;
 
   @Column({ nullable: false })

@@ -34,7 +34,7 @@ export class ProjectService {
 
   async findAll() {
     return await this.projectRepository.find({
-      relations: ['creator']
+      relations: ['creator'],
     });
   }
 

@@ -1,4 +1,11 @@
-import { Entity, Column, ManyToMany, JoinTable, OneToOne, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  ManyToMany,
+  JoinTable,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { EntityModel } from './entity';
 import { User } from './user.entity';
 import { Board } from './board.entity';
@@ -15,11 +22,11 @@ export class Project extends EntityModel {
   creatorId: number;
 
   @ManyToOne(() => Board, (board) => board.ownProjects)
-  @JoinColumn({name: 'projectId'})
+  @JoinColumn({ name: 'projectId' })
   board: Board;
 
   @ManyToOne(() => User, (user) => user.ownProjects)
-  @JoinColumn({name: 'creatorId'})
+  @JoinColumn({ name: 'creatorId' })
   creator: User;
 
   @ManyToMany(() => User, (user) => user.projects)

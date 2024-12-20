@@ -14,5 +14,5 @@ export class Board extends EntityModel {
   projectId: number;
 
   @ManyToOne(() => Project, (project) => project.boards)
-  ownProject: Project;
+  project: Project;
 }

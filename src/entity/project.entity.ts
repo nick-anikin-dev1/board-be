@@ -22,7 +22,7 @@ export class Project extends EntityModel {
   @Column({ nullable: false })
   creatorId: number;
 
-  @OneToMany(() => Board, (board) => board.ownProject)
+  @OneToMany(() => Board, (board) => board.project)
   @JoinColumn({ name: 'projectId' })
   boards: Board[];
 

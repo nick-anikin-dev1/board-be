@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -26,14 +27,16 @@ export class ProjectService {
       throw new BadRequestException('This project already exist');
 
     return await this.projectRepository.save({
-      createrId: userId,
+      creatorId: userId,
       name: dto.name,
       alias: dto.alias,
     });
   }
 
   async findAll() {
-    return await this.projectRepository.find();
+    return await this.projectRepository.find({
+      relations: ['creator'],
+    });
   }
 
   async update(userId: number, dto: UpdateProjectDto) {
@@ -45,9 +48,7 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-    if (project.createrId !== userId) {
-      throw new NotFoundException('You do not have enough rights to delete');
-    }
+    this.isOwner(project.creatorId, userId)
     return await this.projectRepository.update({ id: project.id }, dto);
   }
 
@@ -56,9 +57,14 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-    if (project.createrId !== userId) {
-      throw new NotFoundException('You do not have enough rights to delete');
-    }
+    this.isOwner(project.creatorId, userId)
     return this.projectRepository.softDelete(project);
+  }
+
+  async isOwner(creatorId, userId) {
+    if (creatorId !== userId) {
+      throw new ForbiddenException('You do not have enough rights');
+    }
+    return true;
   }
 }

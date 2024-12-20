@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { EntityModel } from './entity';
 import { Project } from './project.entity';
 
@@ -13,6 +13,6 @@ export class Board extends EntityModel {
   @Column({ nullable: false })
   projectId: number;
 
-  @OneToMany(() => Project, (project) => project.board)
-  ownProjects: Project[];
+  @ManyToOne(() => Project, (project) => project.boards)
+  project: Project;
 }

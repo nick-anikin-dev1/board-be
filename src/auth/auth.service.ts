@@ -8,12 +8,12 @@ import { CreateUserDto } from '../user/dto/create-user.dto';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userServise: UserService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.userServise.findOneByEmail(email);
+    const user = await this.userService.findOneByEmail(email);
     const passwordIsMatch = await argon2.verify(user.password, password);
     if (user && passwordIsMatch) {
       delete user.password;
@@ -39,6 +39,6 @@ export class AuthService {
   }
 
   async signUp(createUserDto: CreateUserDto) {
-    return await this.userServise.createUser(createUserDto);
+    return await this.userService.createUser(createUserDto);
   }
 }

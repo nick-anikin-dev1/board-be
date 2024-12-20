@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './../entity/user.entity';
-import { Repository } from 'typeorm';
+import { FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 
@@ -40,5 +40,13 @@ export class UserService {
         email,
       },
     });
+  }
+
+  async findOneById(id: number) {
+    return await this.userRepository.findOneBy({id});
+  }
+
+  async findOneBy(options: FindOneOptions) {
+    return await this.userRepository.findOne(options)
   }
 }

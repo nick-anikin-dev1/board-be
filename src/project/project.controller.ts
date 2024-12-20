@@ -30,7 +30,7 @@ export class ProjectController {
     return this.projectService.findAll();
   }
 
-  @Get('findOne')
+  @Get('find-one')
   findProjectById(@User() user: IUser) {
     return user;
   }

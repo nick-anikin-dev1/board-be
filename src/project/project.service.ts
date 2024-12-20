@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -48,7 +49,7 @@ export class ProjectService {
       throw new NotFoundException("This project doesn't exist");
     }
     if (project.creatorId !== userId) {
-      throw new NotFoundException('You do not have enough rights to delete');
+      throw new ForbiddenException('You do not have enough rights to delete');
     }
     return await this.projectRepository.update({ id: project.id }, dto);
   }
@@ -59,7 +60,7 @@ export class ProjectService {
       throw new NotFoundException("This project doesn't exist");
     }
     if (project.creatorId !== userId) {
-      throw new NotFoundException('You do not have enough rights to delete');
+      throw new ForbiddenException('You do not have enough rights to delete');
     }
     return this.projectRepository.softDelete(project);
   }

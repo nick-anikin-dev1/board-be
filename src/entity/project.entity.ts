@@ -23,7 +23,6 @@ export class Project extends EntityModel {
   creatorId: number;
 
   @OneToMany(() => Board, (board) => board.project)
-  @JoinColumn({ name: 'projectId' })
   boards: Board[];
 
   @ManyToOne(() => User, (user) => user.ownProjects)

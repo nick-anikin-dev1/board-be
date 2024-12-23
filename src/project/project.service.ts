@@ -8,7 +8,7 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from '../entity/project.entity';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 
 @Injectable()
 export class ProjectService {
@@ -48,9 +48,7 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-    if (project.creatorId !== userId) {
-      throw new ForbiddenException('You do not have enough rights to delete');
-    }
+    this.isOwner(project.creatorId, userId)
     return await this.projectRepository.update({ id: project.id }, dto);
   }
 
@@ -59,9 +57,18 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-    if (project.creatorId !== userId) {
-      throw new ForbiddenException('You do not have enough rights to delete');
-    }
+    this.isOwner(project.creatorId, userId)
     return this.projectRepository.softDelete(project);
+  }
+ 
+  async isOwner(creatorId: number, userId: number) {
+    if (creatorId !== userId) {
+      throw new ForbiddenException('You do not have enough rights');
+    }
+    return true;
+  }
+
+  async findOneBy(options: FindOneOptions) {
+    return await this.projectRepository.findOne(options)
   }
 }

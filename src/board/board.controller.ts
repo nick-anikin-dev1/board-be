@@ -11,7 +11,7 @@ import { IUser } from 'src/types/types';
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Post('create')
+  @Post()
   create(@Body() dto: CreateBoardDto, @User() user: IUser) {
     return this.boardService.create(dto, user);
   }
@@ -21,13 +21,13 @@ export class BoardController {
     return this.boardService.findAll();
   }
 
-  @Patch('update')
+  @Patch()
   update(@Body() dto: UpdateBoardDto, @User() user: IUser) {
     return this.boardService.update(dto, user);
   }
 
-  @Delete('delete')
-  remove(@Param('id') id: string) {
-    return this.boardService.remove(+id);
+  @Delete(':id')
+  remove(@Param('id') id: string, @User() user: IUser) {
+    return this.boardService.remove(+id, user);
   }
 }

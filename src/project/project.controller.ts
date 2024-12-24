@@ -25,14 +25,9 @@ export class ProjectController {
     return this.projectService.create(dto, user.id);
   }
 
-  @Get('find')
+  @Get()
   async findAllProjects() {
     return this.projectService.findAll();
-  }
-
-  @Get('find-one')
-  findProjectById(@User() user: IUser) {
-    return user;
   }
 
   @Patch()

@@ -20,16 +20,15 @@ import { IUser } from 'src/types/types';
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Post(':id')
+  @Post()
   create(
-    @Param('id') id: string,
     @Body() dto: CreateBoardDto,
     @User() user: IUser,
   ) {
-    return this.boardService.create(+id, dto, user);
+    return this.boardService.create(dto, user);
   }
 
-  @Get('find')
+  @Get()
   findAll() {
     return this.boardService.findAll();
   }

@@ -21,8 +21,8 @@ export class BoardService {
     private readonly projectService: ProjectService,
   ) {}
 
-  async create(id: number, dto: CreateBoardDto, user: IUser) {
-    const project = await this.projectService.findOneBy({ where: { id } });
+  async create(dto: CreateBoardDto, user: IUser) {
+    const project = await this.projectService.findOneBy({ where: { id: dto.projectId } });
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
@@ -30,7 +30,7 @@ export class BoardService {
     return await this.boardRepository.save({
       name: dto.name,
       creatorId: user.id,
-      projectId: id,
+      projectId: project.id,
     });
   }
 

@@ -21,46 +21,32 @@ export class BoardService {
     private readonly projectService: ProjectService,
   ) {}
 
-  async create(dto: CreateBoardDto, user: IUser) {
-    const existUser = await this.existUser(user);
-    const creatorProjectId = existUser.ownProjects[0].creatorId;
-    const projectId = existUser.ownProjects[0].id;
-    if (!creatorProjectId) {
-      throw new NotFoundException('User does not have a project');
+  async create(id: number, dto: CreateBoardDto, user: IUser) {
+    const project = await this.projectService.findOneBy({ where: { id } });
+    if (!project) {
+      throw new NotFoundException("This project doesn't exist");
     }
+    this.isOwner(project.creatorId, user.id);
     return await this.boardRepository.save({
       name: dto.name,
       creatorId: user.id,
-      projectId,
+      projectId: id,
     });
   }
 
   async findAll() {
     return await this.boardRepository.find({
-      relations: ['boards'],
+      relations: ['project'],
     });
   }
 
-  async update(dto: UpdateBoardDto, user: IUser) {
-    const existUser = await this.existUser(user);
-    const project = await this.projectService.findOneBy({
-      where: {
-        alias: existUser.ownProjects[0].alias,
-      },
-      relations: ['boards'],
-    });
-    if (!project.boards[0]) {
-      throw new NotFoundException("This user doesn't have boards");
+  async update(id: number, dto: UpdateBoardDto, user: IUser) {
+    const board = await this.boardRepository.findOneBy({ id });
+    if (!board) {
+      throw new NotFoundException("This board doesn't exist");
     }
-    const renameBoard = await this.boardRepository.save(
-      project.boards.filter((board) => {
-        if (board.name === dto.oldName) return (board.name = dto.newName);
-      }),
-    );
-    if (!renameBoard[0]) {
-      throw new NotFoundException('There are no boards with this name');
-    }
-    return renameBoard;
+    this.isOwner(board.creatorId, user.id);
+    return await this.boardRepository.update({ id: board.id }, dto);
   }
 
   async remove(id: number, user: IUser) {
@@ -70,15 +56,6 @@ export class BoardService {
     }
     this.isOwner(board.creatorId, user.id);
     return this.boardRepository.softDelete(board);
-  }
-
-  async existUser(user: IUser) {
-    return await this.userService.findOneBy({
-      where: {
-        id: user.id,
-      },
-      relations: ['ownProjects'],
-    });
   }
 
   async isOwner(creatorId: number, userId: number) {

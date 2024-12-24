@@ -20,9 +20,13 @@ import { IUser } from 'src/types/types';
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  @Post()
-  create(@Body() dto: CreateBoardDto, @User() user: IUser) {
-    return this.boardService.create(dto, user);
+  @Post(':id')
+  create(
+    @Param('id') id: string,
+    @Body() dto: CreateBoardDto,
+    @User() user: IUser,
+  ) {
+    return this.boardService.create(+id, dto, user);
   }
 
   @Get('find')
@@ -30,9 +34,13 @@ export class BoardController {
     return this.boardService.findAll();
   }
 
-  @Patch()
-  update(@Body() dto: UpdateBoardDto, @User() user: IUser) {
-    return this.boardService.update(dto, user);
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() dto: UpdateBoardDto,
+    @User() user: IUser,
+  ) {
+    return this.boardService.update(+id, dto, user);
   }
 
   @Delete(':id')

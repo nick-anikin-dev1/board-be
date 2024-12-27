@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from '../entity/board.entity';
 import { Repository } from 'typeorm';
 import { ProjectService } from '../project/project.service';
+import { Project } from 'src/entity/project.entity';
 
 @Injectable()
 export class BoardService {
@@ -21,7 +22,7 @@ export class BoardService {
 
   async create(dto: CreateBoardDto, user: IUser) {
     const project = await this.projectService.findOneBy({ where: { id: dto.projectId } });
-    this.check(user.id, project);
+    this.checkIsOwnerAndIsExist(user.id, project);
     return await this.boardRepository.save({
       name: dto.name,
       creatorId: user.id,
@@ -37,17 +38,17 @@ export class BoardService {
 
   async update(id: number, dto: UpdateBoardDto, user: IUser) {
     const board = await this.boardRepository.findOneBy({ id });
-    this.check(user.id, board);
+    this.checkIsOwnerAndIsExist(user.id, board);
     return await this.boardRepository.update({ id: board.id }, dto);
   }
 
   async remove(id: number, user: IUser) {
     const board = await this.boardRepository.findOneBy({ id });
-    this.check(user.id, board);
+    this.checkIsOwnerAndIsExist(user.id, board);
     return this.boardRepository.softDelete(board);
   }
 
-  async check(userId: number, spreadsheet) {
+  async checkIsOwnerAndIsExist(userId: number, spreadsheet: Project | Board | undefined) {
     if (!spreadsheet) {
       throw new NotFoundException("This spreadsheet doesn't exist");
     }

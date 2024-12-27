@@ -1,11 +1,15 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
+import {
+  IsInt,
+  IsNotEmpty,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
 export class CreateBoardDto {
-  @IsOptional()
-  @IsNumber()
+  @IsInt()
   @IsNotEmpty()
   projectId: number;
-  
+
   @IsString()
   @MinLength(4)
   name: string;

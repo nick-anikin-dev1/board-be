@@ -21,10 +21,7 @@ export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   @Post()
-  create(
-    @Body() dto: CreateBoardDto,
-    @User() user: IUser,
-  ) {
+  create(@Body() dto: CreateBoardDto, @User() user: IUser) {
     return this.boardService.create(dto, user);
   }
 

@@ -21,7 +21,9 @@ export class BoardService {
   ) {}
 
   async create(dto: CreateBoardDto, user: IUser) {
-    const project = await this.projectService.findOneBy({ where: { id: dto.projectId } });
+    const project = await this.projectService.findOneBy({
+      where: { id: dto.projectId },
+    });
     this.checkIsOwnerAndIsExist(user.id, project);
     return await this.boardRepository.save({
       name: dto.name,
@@ -48,7 +50,10 @@ export class BoardService {
     return this.boardRepository.softDelete(board);
   }
 
-  async checkIsOwnerAndIsExist(userId: number, spreadsheet: Project | Board | undefined) {
+  async checkIsOwnerAndIsExist(
+    userId: number,
+    spreadsheet: Project | Board | undefined,
+  ) {
     if (!spreadsheet) {
       throw new NotFoundException("This spreadsheet doesn't exist");
     }

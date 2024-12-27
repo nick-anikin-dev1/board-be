@@ -22,7 +22,7 @@ export class ProjectController {
 
   @Post()
   async create(@Body() dto: CreateProjectDto, @User() user: IUser) {
-    return this.projectService.create(dto, user.id);
+    return this.projectService.create(dto, user);
   }
 
   @Get()
@@ -30,13 +30,13 @@ export class ProjectController {
     return this.projectService.findAll();
   }
 
-  @Patch()
-  async updateProject(@Body() dto: UpdateProjectDto, @User() user: IUser) {
-    return this.projectService.update(user.id, dto);
+  @Patch(':id')
+  async updateProject(@Param('id') id: string, @Body() dto: UpdateProjectDto, @User() user: IUser) {
+    return this.projectService.update(+id, user, dto);
   }
 
   @Delete(':id')
   async removeProject(@Param('id') id: string, @User() user: IUser) {
-    return this.projectService.remove(+id, user.id);
+    return this.projectService.remove(+id, user);
   }
 }

@@ -48,11 +48,7 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-<<<<<<< HEAD
     this.isOwner(project.creatorId, userId);
-=======
-    this.isOwner(project.creatorId, userId)
->>>>>>> main
     return await this.projectRepository.update({ id: project.id }, dto);
   }
 
@@ -61,29 +57,19 @@ export class ProjectService {
     if (!project) {
       throw new NotFoundException("This project doesn't exist");
     }
-<<<<<<< HEAD
+
     this.isOwner(project.creatorId, userId);
     return this.projectRepository.softDelete(project);
   }
 
   async isOwner(creatorId: number, userId: number) {
-=======
-    this.isOwner(project.creatorId, userId)
-    return this.projectRepository.softDelete(project);
-  }
-
-  async isOwner(creatorId, userId) {
->>>>>>> main
     if (creatorId !== userId) {
       throw new ForbiddenException('You do not have enough rights');
     }
     return true;
   }
-<<<<<<< HEAD
 
   async findOneBy(options: FindOneOptions) {
     return await this.projectRepository.findOne(options);
   }
-=======
->>>>>>> main
 }

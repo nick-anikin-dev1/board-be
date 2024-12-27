@@ -20,28 +20,23 @@ import { IUser } from '../types/types';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @Post('create')
+  @Post()
   async create(@Body() dto: CreateProjectDto, @User() user: IUser) {
-    return this.projectService.create(dto, user.id);
+    return this.projectService.create(dto, user);
   }
 
-  @Get('find')
+  @Get()
   async findAllProjects() {
     return this.projectService.findAll();
   }
 
-  @Get('findOne')
-  findProjectById(@User() user: IUser) {
-    return user;
+  @Patch(':id')
+  async updateProject(@Param('id') id: string, @Body() dto: UpdateProjectDto, @User() user: IUser) {
+    return this.projectService.update(+id, user, dto);
   }
 
-  @Patch('update')
-  async updateProject(@Body() dto: UpdateProjectDto, @User() user: IUser) {
-    return this.projectService.update(user.id, dto);
-  }
-
-  @Delete('delete')
-  async removeProject(@Param('id') id: number, @User() user: IUser) {
-    return this.projectService.remove(id, user.id);
+  @Delete(':id')
+  async removeProject(@Param('id') id: string, @User() user: IUser) {
+    return this.projectService.remove(+id, user);
   }
 }

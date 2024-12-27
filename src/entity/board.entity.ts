@@ -1,4 +1,4 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { EntityModel } from './entity';
 import { Project } from './project.entity';
 
@@ -14,5 +14,6 @@ export class Board extends EntityModel {
   projectId: number;
 
   @ManyToOne(() => Project, (project) => project.boards)
+  @JoinColumn({ name: 'projectId' })
   project: Project;
 }

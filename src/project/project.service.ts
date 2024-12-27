@@ -8,7 +8,8 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from '../entity/project.entity';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
+import { IUser } from 'src/types/types';
 
 @Injectable()
 export class ProjectService {
@@ -17,17 +18,17 @@ export class ProjectService {
     private readonly projectRepository: Repository<Project>,
   ) {}
 
-  async create(dto: CreateProjectDto, userId: number) {
+  async create(dto: CreateProjectDto, user: IUser) {
     const existProject = await this.projectRepository.findOne({
       where: {
         alias: dto.alias,
       },
     });
-    if (existProject)
+    if (existProject) {
       throw new BadRequestException('This project already exist');
-
+    }
     return await this.projectRepository.save({
-      creatorId: userId,
+      creatorId: user.id,
       name: dto.name,
       alias: dto.alias,
     });
@@ -39,32 +40,29 @@ export class ProjectService {
     });
   }
 
-  async update(userId: number, dto: UpdateProjectDto) {
-    const project = await this.projectRepository.findOne({
-      where: {
-        alias: dto.alias,
-      },
-    });
-    if (!project) {
-      throw new NotFoundException("This project doesn't exist");
-    }
-    this.isOwner(project.creatorId, userId)
+  async update(projectId: number, user: IUser, dto: UpdateProjectDto) {
+    const project = await this.projectRepository.findOneBy({id: projectId});
+    this.checkIsOwnerAndIsExist(user.id, project);
     return await this.projectRepository.update({ id: project.id }, dto);
   }
 
-  async remove(id: number, userId: number) {
+  async remove(id: number, user: IUser) {
     const project = await this.projectRepository.findOneBy({ id });
-    if (!project) {
-      throw new NotFoundException("This project doesn't exist");
-    }
-    this.isOwner(project.creatorId, userId)
+    this.checkIsOwnerAndIsExist(user.id, project);
     return this.projectRepository.softDelete(project);
   }
 
-  async isOwner(creatorId, userId) {
-    if (creatorId !== userId) {
+  async checkIsOwnerAndIsExist(userId: number, spreadsheet: Project) {
+    if (!spreadsheet) {
+      throw new NotFoundException("This project doesn't exist");
+    }
+    if (spreadsheet.creatorId !== userId) {
       throw new ForbiddenException('You do not have enough rights');
     }
     return true;
+  }
+
+  async findOneBy(options: FindOneOptions) {
+    return await this.projectRepository.findOne(options);
   }
 }

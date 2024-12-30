@@ -1,9 +1,4 @@
-import {
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  MinLength,
-} from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateBoardDto {
   @IsInt()

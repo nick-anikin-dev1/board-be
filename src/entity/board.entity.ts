@@ -19,6 +19,5 @@ export class Board extends EntityModel {
   project: Project;
 
   @OneToMany(() => Task, (task) => task.board)
-  @JoinColumn({ name: 'boardId' })
   tasks: Task[];
 }

@@ -4,9 +4,6 @@ export class  Task1736585787556 implements MigrationInterface {
     name = ' Task1736585787556'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TYPE "public"."task_priority_enum" AS ENUM('Low', 'Medium', 'High')`);
-        await queryRunner.query(`CREATE TYPE "public"."task_status_enum" AS ENUM('Backlog', 'New', 'ToDo', 'In progress', 'Done')`);
-        await queryRunner.query(`CREATE TYPE "public"."task_type_enum" AS ENUM('Epic', 'Story', 'Task')`);
         await queryRunner.createTable(
            new Table({
              name: 'task',
@@ -47,7 +44,9 @@ export class  Task1736585787556 implements MigrationInterface {
                  name: 'priority',
                  type: 'enum',
                  enum: ['Low', 'Medium', 'High'],
+                 enumName: 'PriorityEnum',
                  isNullable: false,
+                 default: 'Medium'
                },
                {
                  name: 'boardId',
@@ -58,7 +57,9 @@ export class  Task1736585787556 implements MigrationInterface {
                  name: 'status',
                  type: 'enum',
                  enum: ['Backlog', 'New', 'ToDo', 'In progress', 'Done'],
+                 enumName: 'statusEnum',
                  isNullable: false,
+                 default: 'Backlog'
                },
                {
                  name: 'title',
@@ -66,8 +67,8 @@ export class  Task1736585787556 implements MigrationInterface {
                  isNullable: true,
                },
                {
-                 name: 'assignee',
-                 type: 'varchar',
+                 name: 'assigneeId',
+                 type: 'int',
                  isNullable: true,
                },
                {
@@ -84,6 +85,7 @@ export class  Task1736585787556 implements MigrationInterface {
                  name: 'type',
                  type: 'enum',
                  enum: ['Epic', 'Story', 'Task'],
+                 enumName: 'typeEnum',
                  isNullable: true,
                },
              ]
@@ -100,8 +102,5 @@ export class  Task1736585787556 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('task',  true, true, true);
-        await queryRunner.query(`DROP TYPE "public"."task_type_enum"`);
-        await queryRunner.query(`DROP TYPE "public"."task_status_enum"`);
-        await queryRunner.query(`DROP TYPE "public"."task_priority_enum"`);
     }
 }

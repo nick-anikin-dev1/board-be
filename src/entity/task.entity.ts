@@ -1,5 +1,5 @@
 import { EntityModel } from './entity';
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
 
@@ -47,7 +47,11 @@ export class Task extends EntityModel {
   @Column({ nullable: true })
   title: string;
 
-  @Column('varchar', { nullable: true, array: true })
+  @Column({ nullable: true })
+  assigneeId: number;
+
+  @ManyToMany(() => User, (user) => user.tasks)
+  @JoinColumn({ name: 'assigneeId' })
   assignee: User[];
 
   @Column({ nullable: true })

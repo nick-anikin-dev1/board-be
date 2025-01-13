@@ -1,6 +1,7 @@
 import { EntityModel } from './entity';
 import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Project } from './project.entity';
+import { Task } from './task.entity';
 
 @Entity()
 export class User extends EntityModel {
@@ -22,4 +23,7 @@ export class User extends EntityModel {
   @ManyToMany(() => Project, (project) => project.users)
   @JoinTable({ name: 'users_projects' })
   projects: Project[];
+
+  @ManyToMany(() => Task, (task) => task.assignee)
+  tasks: Task[];
 }

@@ -2,26 +2,7 @@ import { EntityModel } from './entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
-
-enum Priority {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
-
-enum Status {
-  Backlog = 'Backlog',
-  New = 'New',
-  ToDo = 'ToDo',
-  InProgress = 'In progress',
-  Done = 'Done',
-}
-
-enum TaskType {
-  Epic = 'Epic',
-  Story = 'Story',
-  Task = 'Task',
-}
+import { Priority, Status, Type } from 'src/task/types';
 
 @Entity()
 export class Task extends EntityModel {
@@ -60,6 +41,6 @@ export class Task extends EntityModel {
   @Column({ nullable: true, type: 'bigint' })
   rating: number;
 
-  @Column({ nullable: true, type: 'enum', enum: TaskType })
+  @Column({ nullable: true, type: 'enum', enum: Type })
   type: string;
 }

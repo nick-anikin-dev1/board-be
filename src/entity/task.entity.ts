@@ -2,7 +2,7 @@ import { EntityModel } from './entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
-import { Priority, Status, Type } from 'src/task/types';
+import { Priority, Status, Type } from '../task/types';
 
 @Entity()
 export class Task extends EntityModel {
@@ -39,7 +39,7 @@ export class Task extends EntityModel {
   storyPoints: number;
 
   @Column({ nullable: true, type: 'bigint' })
-  rating: number;
+  estimate: number;
 
   @Column({ nullable: true, type: 'enum', enum: Type })
   type: string;

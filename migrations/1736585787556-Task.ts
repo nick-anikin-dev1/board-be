@@ -77,7 +77,7 @@ export class Task1736585787556 implements MigrationInterface {
                         isNullable: true,
                     },
                     {
-                        name: 'rating',
+                        name: 'estimate',
                         type: 'bigint',
                         isNullable: true,
                     },

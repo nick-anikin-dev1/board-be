@@ -1,28 +1,25 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateTaskDto } from './create-task.dto';
 import {
-  IsInt,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   MinLength,
 } from 'class-validator';
 import { User } from 'src/entity/user.entity';
+import { Priority, Status, Type } from '../types';
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @IsNotEmpty()
   @MinLength(4)
   name: string;
 
-  @IsNotEmpty()
-  priority: string;
+  @IsEnum(Priority)
+  priority: Priority;
 
-  @IsInt()
-  @IsNotEmpty()
-  boardId: number;
-
-  @IsNotEmpty()
-  status: string;
+  @IsEnum(Status)
+  status: Status;
 
   @IsString()
   @IsNotEmpty()
@@ -37,6 +34,6 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @IsOptional()
   estimate: number;
 
-  @IsOptional()
-  type: string;
+  @IsEnum(Type)
+  type: Type;
 }

@@ -1,27 +1,10 @@
 import { EntityModel } from './entity';
-import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
 
-enum Priority {
-  Low = 'Low',
-  Medium = 'Medium',
-  High = 'High',
-}
+import { Priority, Status, Type } from '../task/types';
 
-enum Status {
-  Backlog = 'Backlog',
-  New = 'New',
-  ToDo = 'ToDo',
-  InProgress = 'In progress',
-  Done = 'Done',
-}
-
-enum TaskType {
-  Epic = 'Epic',
-  Story = 'Story',
-  Task = 'Task',
-}
 
 @Entity()
 export class Task extends EntityModel {
@@ -47,15 +30,20 @@ export class Task extends EntityModel {
   @Column({ nullable: true })
   title: string;
 
-  @Column('varchar', { nullable: true, array: true })
+  @Column({ nullable: true })
+  assigneeId: number;
+
+  @ManyToMany(() => User, (user) => user.tasks)
+  @JoinColumn({ name: 'assigneeId' })
   assignee: User[];
 
   @Column({ nullable: true })
   storyPoints: number;
 
   @Column({ nullable: true, type: 'bigint' })
-  rating: number;
+  estimate: number;
 
-  @Column({ nullable: true, type: 'enum', enum: TaskType })
+  @Column({ nullable: true, type: 'enum', enum: Type })
   type: string;
 }
+

@@ -40,7 +40,7 @@ export class TaskService {
       title: dto.title,
       assignee: project.users,
       storyPoints: dto.storyPoints,
-      rating: dto.rating,
+      rating: dto.estimate,
       type: dto.type,
     });
   }
@@ -65,7 +65,7 @@ export class TaskService {
 
   async checkIsOwnerAndIsExist(userId: number, spreadsheet: Board | Task) {
     if (!spreadsheet) {
-      throw new NotFoundException("This project doesn't exist");
+      throw new NotFoundException("This spreadsheet doesn't exist");
     }
     if (spreadsheet.creatorId !== userId) {
       throw new ForbiddenException('You do not have enough rights');

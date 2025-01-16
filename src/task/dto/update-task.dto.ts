@@ -35,7 +35,7 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   storyPoints: number;
 
   @IsOptional()
-  rating: number;
+  estimate: number;
 
   @IsOptional()
   type: string;

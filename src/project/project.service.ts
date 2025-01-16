@@ -49,7 +49,7 @@ export class ProjectService {
   async remove(id: number, user: IUser) {
     const project = await this.projectRepository.findOneBy({ id });
     this.checkIsOwnerAndIsExist(user.id, project);
-    return this.projectRepository.softDelete(project);
+    return this.projectRepository.softDelete(project.id);
   }
 
   async checkIsOwnerAndIsExist(userId: number, spreadsheet: Project) {

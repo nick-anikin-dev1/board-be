@@ -9,7 +9,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Project } from '../entity/project.entity';
 import { FindOneOptions, Repository } from 'typeorm';
-import { IUser } from 'src/types/types';
+import { IUser } from '../types/types';
 
 @Injectable()
 export class ProjectService {

@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from '../entity/board.entity';
 import { Repository } from 'typeorm';
 import { ProjectService } from '../project/project.service';
-import { Project } from 'src/entity/project.entity';
+import { Project } from '../entity/project.entity';
 
 @Injectable()
 export class BoardService {

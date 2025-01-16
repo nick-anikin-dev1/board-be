@@ -47,7 +47,7 @@ export class BoardService {
   async remove(id: number, user: IUser) {
     const board = await this.boardRepository.findOneBy({ id });
     this.checkIsOwnerAndIsExist(user.id, board);
-    return this.boardRepository.softDelete(board);
+    return this.boardRepository.softDelete(board.id);
   }
 
   async checkIsOwnerAndIsExist(

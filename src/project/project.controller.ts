@@ -31,7 +31,11 @@ export class ProjectController {
   }
 
   @Patch(':id')
-  async updateProject(@Param('id') id: string, @Body() dto: UpdateProjectDto, @User() user: IUser) {
+  async updateProject(
+    @Param('id') id: string,
+    @Body() dto: UpdateProjectDto,
+    @User() user: IUser,
+  ) {
     return this.projectService.update(+id, user, dto);
   }
 

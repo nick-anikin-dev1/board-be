@@ -29,7 +29,7 @@ export class CreateTaskDto {
   title: string;
 
   @IsOptional()
-  assignee: User[];
+  assigneeId: number;
 
   @IsOptional()
   storyPoints: number;

@@ -8,6 +8,7 @@ import { ProjectModule } from './project/project.module';
 import { ConfigModule } from '@nestjs/config';
 import { BoardModule } from './board/board.module';
 import { TaskModule } from './task/types/task.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TaskModule } from './task/types/task.module';
     AuthModule,
     ProjectModule,
     BoardModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

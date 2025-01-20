@@ -6,7 +6,6 @@ import {
   IsString,
   MinLength,
 } from 'class-validator';
-import { User } from '../../entity/user.entity';
 import { Priority, Status, Type } from '../types';
 
 export class CreateTaskDto {

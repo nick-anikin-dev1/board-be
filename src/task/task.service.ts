@@ -21,7 +21,7 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
     private readonly boardService: BoardService,
     private readonly projectService: ProjectService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
   ) {}
 
   async create(dto: CreateTaskDto, user: IUser) {

@@ -21,7 +21,6 @@ export class TaskService {
     @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
     private readonly boardService: BoardService,
-    private readonly projectService: ProjectService,
     private readonly userService: UserService,
     private mailerService: MailerService,
   ) {}

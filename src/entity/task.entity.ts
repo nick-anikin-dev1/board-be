@@ -2,9 +2,7 @@ import { EntityModel } from './entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
-
 import { Priority, Status, Type } from '../task/types';
-
 
 @Entity()
 export class Task extends EntityModel {
@@ -14,7 +12,12 @@ export class Task extends EntityModel {
   @Column({ nullable: false })
   creatorId: number;
 
-  @Column({ nullable: false, type: 'enum', enum: Priority, default: Priority.Medium })
+  @Column({
+    nullable: false,
+    type: 'enum',
+    enum: Priority,
+    default: Priority.Medium,
+  })
   priority: string;
 
   @Column({ nullable: false })
@@ -24,7 +27,12 @@ export class Task extends EntityModel {
   @JoinColumn({ name: 'boardId' })
   board: Board;
 
-  @Column({ nullable: false, type: 'enum', enum: Status, default: Status.Backlog })
+  @Column({
+    nullable: false,
+    type: 'enum',
+    enum: Status,
+    default: Status.Backlog,
+  })
   status: string;
 
   @Column({ nullable: true })
@@ -46,4 +54,3 @@ export class Task extends EntityModel {
   @Column({ nullable: true, type: 'enum', enum: Type })
   type: string;
 }
-

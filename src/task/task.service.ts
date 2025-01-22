@@ -12,6 +12,8 @@ import { BoardService } from '../board/board.service';
 import { Board } from '../entity/board.entity';
 import { IUser } from '../types/types';
 import { ProjectService } from 'src/project/project.service';
+import { UserService } from 'src/user/user.service';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class TaskService {
@@ -20,6 +22,8 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
     private readonly boardService: BoardService,
     private readonly projectService: ProjectService,
+    private readonly userService: UserService,
+    private mailerService: MailerService,
   ) {}
 
   async create(dto: CreateTaskDto, user: IUser) {
@@ -29,8 +33,11 @@ export class TaskService {
     const project = await this.projectService.findOneBy({
       where: { id: board.projectId },
     });
-    console.log(project.users);
+    const assignee = await this.userService.findOneBy({
+      where: { id: dto.assigneeId },
+    });
     this.checkIsOwnerAndIsExist(user.id, board);
+    this.sendEmail(user, board, dto.name);
     return await this.taskRepository.save({
       name: dto.name,
       creatorId: user.id,
@@ -38,7 +45,7 @@ export class TaskService {
       boardId: dto.boardId,
       status: dto.status,
       title: dto.title,
-      assignee: project.users,
+      assignee: assignee[0],
       storyPoints: dto.storyPoints,
       rating: dto.estimate,
       type: dto.type,
@@ -71,5 +78,22 @@ export class TaskService {
       throw new ForbiddenException('You do not have enough rights');
     }
     return true;
+  }
+
+    async sendEmail(user: IUser, board: Board, taskName: string) {
+    const { lastName, firstName } = user;
+    const { name } = board;
+    const emailSent = await this.mailerService.sendMail({
+      to: user.email,
+      from: 'board.notify@gmail.com',
+      subject: 'Test email from NestJS!',
+      template: 'confirmation', 
+      context: {
+        name,
+        firstName,
+        lastName,
+        taskName
+      },
+    });
   }
 }

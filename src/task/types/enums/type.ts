@@ -1,5 +1,5 @@
-export enum  Type {
-    Epic = 'Epic',
-    Story = 'Story',
-    Task = 'Task',
-  }
+export enum Type {
+  Epic = 'Epic',
+  Story = 'Story',
+  Task = 'Task',
+}

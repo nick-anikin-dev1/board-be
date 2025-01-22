@@ -30,9 +30,6 @@ export class TaskService {
     const board = await this.boardService.findOneBy({
       where: { id: dto.boardId },
     });
-    const project = await this.projectService.findOneBy({
-      where: { id: board.projectId },
-    });
     const assignee = await this.userService.findOneBy({
       where: { id: dto.assigneeId },
     });
@@ -80,19 +77,19 @@ export class TaskService {
     return true;
   }
 
-    async sendEmail(user: IUser, board: Board, taskName: string) {
+  async sendEmail(user: IUser, board: Board, taskName: string) {
     const { lastName, firstName } = user;
     const { name } = board;
-    const emailSent = await this.mailerService.sendMail({
+    return await this.mailerService.sendMail({
       to: user.email,
       from: 'board.notify@gmail.com',
       subject: 'Test email from NestJS!',
-      template: 'confirmation', 
+      template: 'confirmation',
       context: {
         name,
         firstName,
         lastName,
-        taskName
+        taskName,
       },
     });
   }

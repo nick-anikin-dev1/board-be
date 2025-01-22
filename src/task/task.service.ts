@@ -11,7 +11,6 @@ import { Repository } from 'typeorm';
 import { BoardService } from '../board/board.service';
 import { Board } from '../entity/board.entity';
 import { IUser } from '../types/types';
-import { ProjectService } from 'src/project/project.service';
 import { UserService } from 'src/user/user.service';
 import { MailerService } from '@nestjs-modules/mailer';
 

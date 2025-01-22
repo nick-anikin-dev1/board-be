@@ -31,9 +31,6 @@ export class TaskService {
     const project = await this.projectService.findOneBy({
       where: { id: board.projectId },
     });
-    const assignee = await this.userService.findOneBy({
-      where: { id: dto.assigneeId },
-    });
     console.log(project.users);
     this.checkIsOwnerAndIsExist(user.id, board);
     return await this.taskRepository.save({
@@ -43,7 +40,7 @@ export class TaskService {
       boardId: dto.boardId,
       status: dto.status,
       title: dto.title,
-      assignee: assignee[0],
+      assigneeId: dto.assigneeId,
       storyPoints: dto.storyPoints,
       rating: dto.estimate,
       type: dto.type,

@@ -1,10 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-
-export class CreateEmailDto {
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+export class CreateNotificationDto {
+    email: string;
+    name: string;
 }

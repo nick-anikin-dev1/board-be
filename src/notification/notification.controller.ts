@@ -1,13 +1,18 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 import { NotificationService } from './notification.service';
-import { CreateEmailDto } from './dto/create-notification.dto';
 
-@Controller('emails')
+@Controller('notification')
 export class NotificationController {
-  constructor(private notificationService: NotificationService) {}
+  constructor(private readonly notificationService: NotificationService) {}
 
-  @Post()
-  async sendEmail(@Body() dto: CreateEmailDto): Promise<string> {
-    return this.notificationService.sendEmail(dto);
+  @Post('send-welcome-email')
+  async sendWelcomeEmail() {
+    const to = 'recipient@example.com';
+    const subject = 'Welcome to our service!';
+    const template = './welcome';
+    const context = { name: 'John Doe' };
+
+    await this.notificationService.sendEmail(to, subject, template, context);
+    return { message: 'Email sent successfully!' };
   }
 }

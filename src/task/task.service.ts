@@ -32,7 +32,6 @@ export class TaskService {
       where: { id: dto.assigneeId },
     });
     this.checkIsOwnerAndIsExist(user.id, board);
-    this.sendEmail(user, board, dto.name);
     return await this.taskRepository.save({
       name: dto.name,
       creatorId: user.id,
@@ -73,22 +72,5 @@ export class TaskService {
       throw new ForbiddenException('You do not have enough rights');
     }
     return true;
-  }
-
-  async sendEmail(user: IUser, board: Board, taskName: string) {
-    const { lastName, firstName } = user;
-    const { name } = board;
-    return await this.mailerService.sendMail({
-      to: user.email,
-      from: 'board.notify@gmail.com',
-      subject: 'Test email from NestJS!',
-      template: 'confirmation',
-      context: {
-        name,
-        firstName,
-        lastName,
-        taskName,
-      },
-    });
   }
 }

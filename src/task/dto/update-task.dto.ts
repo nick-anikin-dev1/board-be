@@ -2,13 +2,16 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateTaskDto } from './create-task.dto';
 import {
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
+  Min,
   MinLength,
 } from 'class-validator';
 import { User } from 'src/entity/user.entity';
 import { Priority, Status, Type } from '../types';
+import { IsMultiplesOf } from 'src/decorators/isMultiplesOf';
 
 export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @IsNotEmpty()
@@ -31,7 +34,9 @@ export class UpdateTaskDto extends PartialType(CreateTaskDto) {
   @IsOptional()
   storyPoints: number;
 
-  @IsOptional()
+  @IsInt()
+  @Min(60)
+  @IsMultiplesOf(60)
   estimate: number;
 
   @IsEnum(Type)

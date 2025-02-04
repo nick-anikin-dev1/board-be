@@ -97,6 +97,7 @@ export class Task1736585787556 implements MigrationInterface {
             referencedColumnNames: ["id"],
             referencedTableName: "board",
             onDelete: "CASCADE",
+
         }));
     }
 
@@ -104,3 +105,4 @@ export class Task1736585787556 implements MigrationInterface {
         await queryRunner.dropTable('task', true, true, true);
     }
 }
+

@@ -8,7 +8,7 @@ import { UpdateBoardDto } from './dto/update-board.dto';
 import { IUser } from '../types/types';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from '../entity/board.entity';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { ProjectService } from '../project/project.service';
 import { Project } from 'src/entity/project.entity';
 
@@ -61,5 +61,9 @@ export class BoardService {
       throw new ForbiddenException('You do not have enough rights');
     }
     return true;
+  }
+
+  async findOneBy(options: FindOneOptions) {
+    return await this.boardRepository.findOne(options);
   }
 }

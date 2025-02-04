@@ -17,11 +17,11 @@ export function IsMultiplesOf(
       options: validationOptions,
       validator: {
         validate(value: any, args: ValidationArguments) {
-          const [multipleOf] = args.constraints;
+          const [multipleOf] = args[0];
           return typeof value === 'number' && value % multipleOf === 0;
         },
         defaultMessage(args: ValidationArguments) {
-          const [multipleOf] = args.constraints;
+          const [multipleOf] = args[0];
           return `${args.property} must be a multiple of ${multipleOf}`;
         },
       },

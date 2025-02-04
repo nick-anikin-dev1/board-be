@@ -11,8 +11,8 @@ import { Repository } from 'typeorm';
 import { BoardService } from '../board/board.service';
 import { Board } from '../entity/board.entity';
 import { IUser } from '../types/types';
+import { ProjectService } from 'src/project/project.service';
 import { UserService } from 'src/user/user.service';
-import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class TaskService {
@@ -20,17 +20,18 @@ export class TaskService {
     @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
     private readonly boardService: BoardService,
+    private readonly projectService: ProjectService,
     private readonly userService: UserService,
-    private mailerService: MailerService,
   ) {}
 
   async create(dto: CreateTaskDto, user: IUser) {
     const board = await this.boardService.findOneBy({
       where: { id: dto.boardId },
     });
-    const assignee = await this.userService.findOneBy({
-      where: { id: dto.assigneeId },
+    const project = await this.projectService.findOneBy({
+      where: { id: board.projectId },
     });
+    console.log(project.users);
     this.checkIsOwnerAndIsExist(user.id, board);
     return await this.taskRepository.save({
       name: dto.name,
@@ -39,7 +40,7 @@ export class TaskService {
       boardId: dto.boardId,
       status: dto.status,
       title: dto.title,
-      assignee: assignee[0],
+      assigneeId: dto.assigneeId,
       storyPoints: dto.storyPoints,
       rating: dto.estimate,
       type: dto.type,

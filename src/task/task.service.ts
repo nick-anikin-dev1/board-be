@@ -13,6 +13,7 @@ import { Board } from '../entity/board.entity';
 import { IUser } from '../types/types';
 import { UserService } from 'src/user/user.service';
 import { MailerService } from '@nestjs-modules/mailer';
+import { FilterTaskDto } from './dto/filter-task.dto';
 
 @Injectable()
 export class TaskService {
@@ -90,5 +91,77 @@ export class TaskService {
         taskName,
       },
     });
+  }
+
+  async findTasks(dto: FilterTaskDto) {
+    const queryBuilder = this.taskRepository.createQueryBuilder('task');
+
+    if (dto.search) {
+      queryBuilder.andWhere(
+        '(LOWER(task.name) LIKE LOWER(:search) OR LOWER(task.type) LIKE LOWER(:search) OR LOWER(task.status) LIKE LOWER(:search))',
+        { search: `%${dto.search}%` },
+      );
+    }
+
+    if (dto.priorityIN) {
+      queryBuilder.andWhere('task.priority IN (:...priorities)', {
+        priorities: dto.priorityIN,
+      });
+    }
+
+    if (dto.priorityEX) {
+      queryBuilder.andWhere('task.priority NOT IN (:...priorities)', {
+        priorities: dto.priorityEX,
+      });
+    }
+
+    if (dto.statusIN) {
+      queryBuilder.andWhere('task.status IN (:...statuses)', {
+        statuses: dto.statusIN,
+      });
+    }
+
+    if (dto.statusEX) {
+      queryBuilder.andWhere('task.status NOT IN (:...statuses)', {
+        statuses: dto.statusEX,
+      });
+    }
+
+    if (dto.typeIN) {
+      queryBuilder.andWhere('task.type IN (:...types)', {
+        types: dto.typeIN,
+      });
+    }
+
+    if (dto.typeEX) {
+      queryBuilder.andWhere('task.type NOT IN (:...types)', {
+        types: dto.typeEX,
+      });
+    }
+
+    if (dto.assigneeIN) {
+      queryBuilder.andWhere('task.assigneeEmail IN (:...assignees)', {
+        assignees: dto.assigneeIN,
+      });
+    }
+
+    if (dto.assigneeEX) {
+      queryBuilder.andWhere('task.assigneeEmail NOT IN (:...assignees)', {
+        assignees: dto.assigneeEX,
+      });
+    }
+
+    if (dto.storyPoints) {
+      const [minPoints, maxPoints] = dto.storyPoints.split('-').map(Number);
+      queryBuilder.andWhere(
+        'task.storyPoints BETWEEN :minPoints AND :maxPoints',
+        {
+          minPoints,
+          maxPoints,
+        },
+      );
+    }
+
+    return queryBuilder.getMany();
   }
 }

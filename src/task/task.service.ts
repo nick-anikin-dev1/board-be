@@ -7,7 +7,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from '../entity/task.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { BoardService } from '../board/board.service';
 import { Board } from '../entity/board.entity';
 import { IUser } from '../types/types';
@@ -81,44 +81,48 @@ export class TaskService {
 
     if (dto.search) {
       queryBuilder.andWhere(
-        '(LOWER(task.name) LIKE LOWER(:search) OR LOWER(task.type) LIKE LOWER(:search) OR LOWER(task.status) LIKE LOWER(:search))',
+        new Brackets((qb) => {
+          qb.where('task.name ILIKE :search')
+            .orWhere('task.type ILIKE :search')
+            .orWhere('task.status ILIKE :search');
+        }),
         { search: `%${dto.search}%` },
       );
     }
 
     if (dto.priorityIN) {
       queryBuilder.andWhere('task.priority IN (:...priorities)', {
-        priorities: dto.priorityIN,
+        priorities: dto.priorityIN.map((priority) => priority.toString()),
       });
     }
 
     if (dto.priorityEX) {
       queryBuilder.andWhere('task.priority NOT IN (:...priorities)', {
-        priorities: dto.priorityEX,
+        priorities: dto.priorityEX.map((priority) => priority.toString()),
       });
     }
 
     if (dto.statusIN) {
       queryBuilder.andWhere('task.status IN (:...statuses)', {
-        statuses: dto.statusIN,
+        statuses: dto.statusIN.map((status) => status.toString()),
       });
     }
 
     if (dto.statusEX) {
       queryBuilder.andWhere('task.status NOT IN (:...statuses)', {
-        statuses: dto.statusEX,
+        statuses: dto.statusEX.map((status) => status.toString()),
       });
     }
 
     if (dto.typeIN) {
       queryBuilder.andWhere('task.type IN (:...types)', {
-        types: dto.typeIN,
+        types: dto.typeIN.map((type) => type.toString()),
       });
     }
 
     if (dto.typeEX) {
       queryBuilder.andWhere('task.type NOT IN (:...types)', {
-        types: dto.typeEX,
+        types: dto.typeEX.map((type) => type.toString()),
       });
     }
 

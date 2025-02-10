@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -14,6 +15,7 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { User } from 'src/types/user.types';
 import { IUser } from 'src/types/types';
+import { FilterTaskDto } from './dto/filter-task.dto';
 
 @Controller('task')
 @UseGuards(JwtAuthGuard)
@@ -28,6 +30,11 @@ export class TaskController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.taskService.findOne(+id);
+  }
+
+  @Get()
+  async getTasks(@Query() dto: FilterTaskDto) {
+    return this.taskService.findTasks(dto);
   }
 
   @Patch(':id')

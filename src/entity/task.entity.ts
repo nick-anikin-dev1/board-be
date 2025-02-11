@@ -2,7 +2,6 @@ import { EntityModel } from './entity';
 import { Entity, Column, ManyToOne, JoinColumn, ManyToMany } from 'typeorm';
 import { Board } from './board.entity';
 import { User } from './user.entity';
-
 import { Priority, Status, Type } from '../task/types';
 
 @Entity()

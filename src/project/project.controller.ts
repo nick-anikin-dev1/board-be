@@ -14,13 +14,17 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 import { User } from '../types/user.types';
 import { IUser } from '../types/types';
+import { RolesGuard } from '../guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RoleType } from 'src/task/types';
 
 @Controller('project')
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
   @Post()
+  @Roles(RoleType.ADMIN)
   async create(@Body() dto: CreateProjectDto, @User() user: IUser) {
     return this.projectService.create(dto, user);
   }
@@ -30,6 +34,7 @@ export class ProjectController {
     return this.projectService.findAll();
   }
 
+  @Roles(RoleType.ADMIN, RoleType.MANAGER)
   @Patch(':id')
   async updateProject(
     @Param('id') id: string,
@@ -39,6 +44,7 @@ export class ProjectController {
     return this.projectService.update(+id, user, dto);
   }
 
+  @Roles(RoleType.ADMIN)
   @Delete(':id')
   async removeProject(@Param('id') id: string, @User() user: IUser) {
     return this.projectService.remove(+id, user);

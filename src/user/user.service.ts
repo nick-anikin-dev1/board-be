@@ -5,6 +5,8 @@ import { User } from './../entity/user.entity';
 import { FindOneOptions, Repository } from 'typeorm';
 import * as argon2 from 'argon2';
 import { JwtService } from '@nestjs/jwt';
+import { Role } from '../entity/role.entity';
+import { UserRole } from '../entity/userRole.entity';
 
 @Injectable()
 export class UserService {
@@ -12,6 +14,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
+    @InjectRepository(UserRole)
+    private readonly userRoleRepository: Repository<UserRole>,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -48,5 +52,13 @@ export class UserService {
 
   async findOneBy(options: FindOneOptions) {
     return await this.userRepository.findOne(options);
+  }
+
+  async getRolesForUser(userId: number): Promise<Role[]> {
+    const userRoles = await this.userRoleRepository.find({
+      where: { user: { id: userId } },
+      relations: ['role'],
+    });
+    return userRoles.map((userRole) => userRole.role);
   }
 }

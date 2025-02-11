@@ -2,6 +2,7 @@ import { EntityModel } from './entity';
 import { Entity, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Project } from './project.entity';
 import { Task } from './task.entity';
+import { UserRole } from './userRole.entity';
 
 @Entity()
 export class User extends EntityModel {
@@ -26,4 +27,7 @@ export class User extends EntityModel {
 
   @ManyToMany(() => Task, (task) => task.assignee)
   tasks: Task[];
+
+  @OneToMany(() => UserRole, (userRole) => userRole.user)
+  userRoles: UserRole[];
 }

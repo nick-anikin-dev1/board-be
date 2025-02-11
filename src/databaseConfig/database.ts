@@ -7,6 +7,8 @@ import { DataSource } from 'typeorm';
 import * as migrations from '../../migrations';
 import { Board } from '../entity/board.entity';
 import { Task } from '../entity/task.entity';
+import { UserRole } from '../entity/userRole.entity';
+import { Role } from '../entity/role.entity';
 
 function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
   return {
@@ -16,7 +18,7 @@ function getDbConfig(configService: ConfigService): PostgresConnectionOptions {
     username: configService.get('DB_USERNAME'),
     password: configService.get('DB_PASSWORD'),
     synchronize: false,
-    entities: [User, Project, Board, Task],
+    entities: [User, Project, Board, Task, UserRole, Role],
     migrations,
     migrationsTableName: 'migrations',
   };

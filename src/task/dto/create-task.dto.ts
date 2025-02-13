@@ -4,9 +4,11 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  Min,
   MinLength,
 } from 'class-validator';
 import { Priority, Status, Type } from '../types';
+import { IsMultiplesOf } from 'src/decorators/isMultiplesOf';
 
 export class CreateTaskDto {
   @IsNotEmpty()
@@ -33,7 +35,9 @@ export class CreateTaskDto {
   @IsOptional()
   storyPoints: number;
 
-  @IsOptional()
+  @IsInt()
+  @Min(60)
+  @IsMultiplesOf(60)
   estimate: number;
 
   @IsEnum(Type)
